@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "712012499178",
+    "project_id": "sabilla-firebase",
+    "storage_bucket": "sabilla-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712012499178:android:e162ef65bb21ea7eda6f93",
+        "android_client_info": {
+          "package_name": "com.sabilla.sabilla_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOEYF8B8GDBs3CguFzjuz4WA2S_EFDSAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
