@@ -18,26 +18,55 @@ class LoginView extends GetView<LoginController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/loginImage.jpg',
-                width: 150, height: 150), // Ganti dengan path gambar Anda
+            Image.asset('assets/loginimage.png',
+                width: 200, height: 200), // Ganti dengan path gambar Anda
             Card(
               margin: const EdgeInsets.all(16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                // Ganti sesuai keinginan
+                borderRadius:
+                    BorderRadius.circular(12), // Ganti sesuai keinginan
               ),
+              elevation: 3,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextField(
-                      controller: emailC,
-                      decoration: InputDecoration(labelText: "Email"),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.person,
+                          color: Color(0xFF8332A6),
+                          size: 30,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ), // Jarak antara ikon dan TextField
+                        Expanded(
+                          child: TextField(
+                            controller: emailC,
+                            decoration: InputDecoration(labelText: "Email"),
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: passC,
-                      decoration: InputDecoration(labelText: "Password"),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.lock_outline,
+                          color: Color(0xFF8332A6),
+                          size: 30,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ), // Jarak antara ikon dan TextField
+                        Expanded(
+                          child: TextField(
+                            controller: passC,
+                            decoration: InputDecoration(labelText: "Password"),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 20),
                   ],
@@ -45,7 +74,7 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
             SizedBox(
-              width: 396,
+              width: 330,
               height: 40,
               child: ElevatedButton(
                 onPressed: () {
@@ -64,7 +93,29 @@ class LoginView extends GetView<LoginController> {
                 ),
                 child: Text("Sign in"),
               ),
-            )
+            ),
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: () {},
+              child: const Text(
+                'Doesn’t Have Account? Register Here',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Color(0xFF8332A6),
+                    fontStyle: FontStyle.italic),
+              ),
+            ),
+            const SizedBox(height: 5),
+            TextButton(
+              onPressed: () {},
+              child: const Text(
+                'Forgot Password',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Color(0xFF8332A6),
+                    fontStyle: FontStyle.italic),
+              ),
+            ),
           ],
         ),
       ),

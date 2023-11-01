@@ -19,5 +19,9 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
+  assets: 
+    - assets/loginimage.png
+    - assets/profilebg.png
+    - assets/profilepic.png
   uses-material-design: true
 
