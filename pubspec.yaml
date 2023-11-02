@@ -23,5 +23,6 @@ flutter:
     - assets/loginimage.png
     - assets/profilebg.png
     - assets/profilepic.png
+    - assets/homeimage.png
   uses-material-design: true
 

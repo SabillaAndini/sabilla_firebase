@@ -176,6 +176,40 @@ class ProfileView extends GetView<ProfileController> {
           )
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+          height: 50,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                iconSize: 30.0,
+                padding: const EdgeInsets.only(left: 70.0),
+                icon: const Icon(
+                  Icons.home, // Ganti dengan warna ikon yang Anda inginkan
+                ),
+                onPressed: () {
+                  Get.toNamed(
+                      '/home'); // Tambahkan aksi ketika ikon "home" ditekan
+                },
+              ),
+              IconButton(
+                iconSize: 30.0,
+                padding: const EdgeInsets.only(right: 70.0),
+                icon: const Icon(
+                  Icons.person,
+                  color: Color(0xFF8332A6),
+                ),
+                onPressed: () {
+                  // Tambahkan aksi ketika ikon "list" ditekan
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

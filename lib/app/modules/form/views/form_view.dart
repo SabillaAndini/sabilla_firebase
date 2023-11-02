@@ -9,8 +9,16 @@ class FormView extends GetView<FormController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFBF2FF),
       appBar: AppBar(
-        title: const Text('FormView'),
+        backgroundColor: Color(0xFFFBF2FF),
+        title: Text(
+          'Books Form',
+          style: TextStyle(
+            color:
+                Color(0xFFBF2C98), // Ganti dengan warna teks yang Anda inginkan
+          ),
+        ),
         centerTitle: true,
       ),
       body: const Center(
