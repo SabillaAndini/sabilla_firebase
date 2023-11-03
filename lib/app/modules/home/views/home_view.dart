@@ -87,10 +87,9 @@ class HomeView extends GetView<HomeController> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title:
-                          Center(child: Text("Reading Form")), // Judul dialog
+                      title: const Center(child: Text("Reading Form")),
                       content: Container(
-                        width: 250.0, // Lebar konten dialog
+                        width: 250.0,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -98,21 +97,21 @@ class HomeView extends GetView<HomeController> {
                               decoration: InputDecoration(
                                 labelText: "Select Book",
                                 labelStyle: TextStyle(
-                                    color: Color(
-                                        0xFF8332A6)), // Mengatur warna label
+                                  color: Color(0xFF8332A6),
+                                ),
                               ),
                             ),
                             const TextField(
                               decoration: InputDecoration(
                                 labelText: "Previous Page",
                                 labelStyle: TextStyle(color: Color(0xFF8332A6)),
-                              ), // Textfield untuk menginputkan item baru
+                              ),
                             ),
                             const TextField(
                               decoration: InputDecoration(
                                 labelText: "Newest Read Page",
                                 labelStyle: TextStyle(color: Color(0xFF8332A6)),
-                              ), // Textfield untuk menginputkan item baru
+                              ),
                             ),
                             SizedBox(height: 16.0),
                             Row(
@@ -120,19 +119,16 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    // Tambahkan aksi untuk menambahkan item ke daftar Anda di sini
-                                    Navigator.of(context)
-                                        .pop(); // Tutup dialog setelah menambahkan item
+                                    Navigator.of(context).pop();
                                   },
                                   style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty
-                                        .all<Color>(const Color(
-                                            0xFF8332A6)), // Ganti warna sesuai keinginan
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            const Color(0xFF8332A6)),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            30), // Ganti sesuai keinginan
+                                        borderRadius: BorderRadius.circular(30),
                                       ),
                                     ),
                                   ),
@@ -145,15 +141,15 @@ class HomeView extends GetView<HomeController> {
                       ),
                     );
                   },
-                ); // Tambahkan aksi ketika ikon "Add" ditekan
+                );
               },
               iconSize: 20,
             ),
           ),
           Positioned(
-            top: 120,
+            top: 120, // Atur posisi top sesuai kebutuhan
             left: 10,
-            right: 0,
+            right: 10, // Atur posisi right sesuai kebutuhan
             child: SizedBox(
               height: 200,
               child: ListView.builder(
@@ -223,9 +219,9 @@ class HomeView extends GetView<HomeController> {
                                 child: LinearProgressIndicator(
                                   value: 0.5, // Nilai 0.5 mewakili 50%
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                      Color(0xFFBF2C98)),
-                                  backgroundColor: Colors
-                                      .grey, // Warna latar belakang progress bar
+                                    Color(0xFFBF2C98),
+                                  ),
+                                  backgroundColor: Colors.grey,
                                 ),
                               ),
                             ],
@@ -239,37 +235,116 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           Positioned(
-            top: 340, // Sesuaikan posisi top sesuai kebutuhan
-            left: 20,
-            right: 20,
-            child: Container(
-              width: 300,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                // physics: ScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Card(
-                    // Ganti ini dengan tampilan item Anda
-                    child: Container(
-                      child: ListTile(
-                        title: Text('Item $index'),
+            top: 380, // Atur posisi top sesuai kebutuhan
+            left: 10,
+            right: 10, // Atur posisi right sesuai kebutuhan
+            child: SizedBox(
+              height: 300, // Sesuaikan tinggi sesuai kebutuhan
+              child: Container(
+                height: 612,
+                width: 396,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+                      child: Text(
+                        'Recent Activity',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  );
-                },
+                    Expanded(
+                      child: Container(
+                        child: ListView.builder(
+                          itemCount:
+                              20, // Ganti dengan jumlah item yang Anda inginkan
+                          itemBuilder: (BuildContext context, int index) {
+                            // Menggunakan indeks genap/ganjil untuk mengganti warna latar belakang
+                            Color backgroundColor = index % 2 == 0
+                                ? Color(0xFFBF2C98).withOpacity(0.1)
+                                : Color(0xFFBF2C98).withOpacity(0.2);
+                            return Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: backgroundColor,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Image.asset(
+                                      'assets/homeimage.png',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Book Name',
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 16),
+                                      ),
+                                      Text(
+                                        'Tue, 23 Oct 2023, 12/25',
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 50),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 5),
+                                    child: Container(
+                                      width: 50,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFBF2C98),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          '1 - 20',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFF8332A6),
+        backgroundColor: const Color(0xFF8332A6),
         onPressed: () {
           Get.toNamed('/form');
         },
-        child: Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
