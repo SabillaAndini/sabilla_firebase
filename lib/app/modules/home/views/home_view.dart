@@ -214,14 +214,19 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                 ),
                               ),
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: LinearProgressIndicator(
-                                  value: 0.5, // Nilai 0.5 mewakili 50%
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color(0xFFBF2C98),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: LinearProgressIndicator(
+                                    value: 0.5,
+                                    minHeight: 10,
+                                    backgroundColor: Colors.grey.shade400,
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                            Color(0xFF7C39BF)),
                                   ),
-                                  backgroundColor: Colors.grey,
                                 ),
                               ),
                             ],

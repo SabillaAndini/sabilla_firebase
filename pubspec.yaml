@@ -10,9 +10,10 @@ dependencies:
   get: 4.6.6
   firebase_core: 2.20.0
   firebase_auth: 4.12.0
+  intl: ^0.18.1
+
   flutter: 
     sdk: flutter
-  intl: ^0.18.1  
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -25,5 +26,6 @@ flutter:
     - assets/profilebg.png
     - assets/profilepic.png
     - assets/homeimage.png
+    - assets/formimage1.png
   uses-material-design: true
 

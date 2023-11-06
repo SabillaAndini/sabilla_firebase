@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../controllers/auth_controller.dart';
+import '../../home/views/home_view.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -12,6 +13,7 @@ class LoginView extends GetView<LoginController> {
   final nameC = TextEditingController();
   final confirmC = TextEditingController();
   final dateC = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   final authC = Get.find<AuthController>();
   RxBool isRegister = false.obs;
   RxString _selectedGender = ''.obs;
@@ -33,7 +35,7 @@ class LoginView extends GetView<LoginController> {
 
     if (pickedDate != null) {
       print(pickedDate); // Format pickedDate => 2021-03-10 00:00:00.000
-      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      String formattedDate = DateFormat("EEE, dd MMM y").format(pickedDate);
       print(
           formattedDate); // Format tanggal terformat menggunakan paket intl => 2021-03-16
       dateC.text = formattedDate; // Setel nilai dateC dengan tanggal terformat
@@ -62,14 +64,40 @@ class LoginView extends GetView<LoginController> {
                   elevation: 3,
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (isRegister.value == true)
+                    child: Form(
+                      key: _formKey,
+                      autovalidateMode: AutovalidateMode.always,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (isRegister.value == true)
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.person,
+                                  color: Color(0xFF8332A6),
+                                  size: 30,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: nameC,
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                            ? 'This field is required'
+                                            : null,
+                                    decoration:
+                                        InputDecoration(labelText: "Name"),
+                                  ),
+                                ),
+                              ],
+                            ),
                           Row(
                             children: [
                               const Icon(
-                                Icons.person,
+                                Icons.email,
                                 color: Color(0xFF8332A6),
                                 size: 30,
                               ),
@@ -78,63 +106,17 @@ class LoginView extends GetView<LoginController> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: nameC,
+                                  controller: emailC,
                                   validator: (value) =>
-                                      value == null || value == ''
+                                      value == null || value.isEmpty
                                           ? 'This field is required'
                                           : null,
                                   decoration:
-                                      InputDecoration(labelText: "Name"),
+                                      InputDecoration(labelText: "Email"),
                                 ),
                               ),
                             ],
                           ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.email,
-                              color: Color(0xFF8332A6),
-                              size: 30,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: emailC,
-                                validator: (value) =>
-                                    value == null || value == ''
-                                        ? 'This field is required'
-                                        : null,
-                                decoration: InputDecoration(labelText: "Email"),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.lock_outline,
-                              color: Color(0xFF8332A6),
-                              size: 30,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: passC,
-                                validator: (value) =>
-                                    value == null || value == ''
-                                        ? 'This field is required'
-                                        : null,
-                                decoration:
-                                    InputDecoration(labelText: "Password"),
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (isRegister.value == true)
                           Row(
                             children: [
                               const Icon(
@@ -147,95 +129,122 @@ class LoginView extends GetView<LoginController> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: confirmC,
+                                  controller: passC,
                                   validator: (value) =>
-                                      value == null || value == ''
+                                      value == null || value.isEmpty
                                           ? 'This field is required'
                                           : null,
-                                  decoration: const InputDecoration(
-                                      labelText: "Confirm Password"),
+                                  decoration:
+                                      InputDecoration(labelText: "Password"),
                                 ),
                               ),
                             ],
                           ),
-                        if (isRegister.value == true)
-                          Row(
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.calendar_today,
+                          if (isRegister.value == true)
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.lock_outline,
                                   color: Color(0xFF8332A6),
                                   size: 30,
                                 ),
-                                onPressed: () async {
-                                  _selectDate(
-                                      context); // Panggil fungsi _selectDate saat ikon kalender diklik
-                                },
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  controller: dateC,
-                                  validator: (value) =>
-                                      value == null || value == ''
-                                          ? 'This field is required'
-                                          : null,
-                                  decoration: InputDecoration(
-                                    labelText: "Datetime",
-                                  ),
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                            ],
-                          ),
-                        SizedBox(height: 10),
-                        if (isRegister.value == true)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, top: 7),
-                            child: Row(
-                              children: [
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Gender',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color(0xff8332A6),
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Radio<String>(
-                                          value: 'male',
-                                          groupValue: selectedGender.value,
-                                          onChanged: (value) {
-                                            selectedGender.value = value ?? '';
-                                          },
-                                          activeColor: Color(0xff8332A6),
-                                        ),
-                                        Text('male'),
-                                        Radio<String>(
-                                          value: 'female',
-                                          groupValue: selectedGender.value,
-                                          onChanged: (value) {
-                                            selectedGender.value = value ?? '';
-                                          },
-                                          activeColor: Color(0xff8332A6),
-                                        ),
-                                        Text('female'),
-                                      ],
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: confirmC,
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                            ? 'This field is required'
+                                            : null,
+                                    decoration: const InputDecoration(
+                                        labelText: "Confirm Password"),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        SizedBox(height: 20),
-                      ],
+                          if (isRegister.value == true)
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.calendar_today,
+                                    color: Color(0xFF8332A6),
+                                    size: 30,
+                                  ),
+                                  onPressed: () async {
+                                    _selectDate(context);
+                                  },
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: dateC,
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                            ? 'This field is required'
+                                            : null,
+                                    decoration: InputDecoration(
+                                      labelText: "Datetime",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          SizedBox(height: 10),
+                          if (isRegister.value == true)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 8, top: 7),
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Gender',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color(0xff8332A6),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Radio<String>(
+                                            value: 'male',
+                                            groupValue: selectedGender.value,
+                                            onChanged: (value) {
+                                              selectedGender.value =
+                                                  value ?? '';
+                                            },
+                                            activeColor: Color(0xff8332A6),
+                                          ),
+                                          Text('male'),
+                                          Radio<String>(
+                                            value: 'female',
+                                            groupValue: selectedGender.value,
+                                            onChanged: (value) {
+                                              selectedGender.value =
+                                                  value ?? '';
+                                            },
+                                            activeColor: Color(0xff8332A6),
+                                          ),
+                                          Text('female'),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          SizedBox(height: 20),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -245,23 +254,26 @@ class LoginView extends GetView<LoginController> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    //if
-                    authC.logIn(emailC.text, passC.text);
-                    Get.toNamed('/home'); // Mengarahkan ke halaman HomeView
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeView()),
+                      );
+                    }
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Color(0xFF8332A6)), // Ganti warna sesuai keinginan
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xFF8332A6)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(30), // Ganti sesuai keinginan
+                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
                   ),
                   child: Text("Sign in"),
                 ),
               ),
+
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
