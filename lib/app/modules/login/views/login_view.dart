@@ -2,47 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-import '../../../controllers/auth_controller.dart';
 import '../../home/views/home_view.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  final emailC = TextEditingController();
-  final passC = TextEditingController();
-  final nameC = TextEditingController();
-  final confirmC = TextEditingController();
-  final dateC = TextEditingController();
+  final LoginController loginController = Get.put(LoginController());
   final _formKey = GlobalKey<FormState>();
-  final authC = Get.find<AuthController>();
-  RxBool isRegister = false.obs;
-  RxString _selectedGender = ''.obs;
-  RxString get selectedGender => _selectedGender;
-
-  void setSelectedGender(String value) {
-    _selectedGender = value.obs;
-  }
-
-  DateTime? selectedDate;
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null) {
-      print(pickedDate); // Format pickedDate => 2021-03-10 00:00:00.000
-      String formattedDate = DateFormat("EEE, dd MMM y").format(pickedDate);
-      print(
-          formattedDate); // Format tanggal terformat menggunakan paket intl => 2021-03-16
-      dateC.text = formattedDate; // Setel nilai dateC dengan tanggal terformat
-    } else {
-      print("Tanggal tidak dipilih");
-    }
-  }
+  final authC = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +32,11 @@ class LoginView extends GetView<LoginController> {
                     padding: const EdgeInsets.all(16),
                     child: Form(
                       key: _formKey,
-                      autovalidateMode: AutovalidateMode.always,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (isRegister.value == true)
+                          if (controller.isRegister)
                             Row(
                               children: [
                                 const Icon(
@@ -83,7 +49,7 @@ class LoginView extends GetView<LoginController> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                    controller: nameC,
+                                    controller: controller.nameC,
                                     validator: (value) =>
                                         value == null || value.isEmpty
                                             ? 'This field is required'
@@ -106,7 +72,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: emailC,
+                                  controller: controller.emailC,
                                   validator: (value) =>
                                       value == null || value.isEmpty
                                           ? 'This field is required'
@@ -129,7 +95,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: passC,
+                                  controller: controller.passC,
                                   validator: (value) =>
                                       value == null || value.isEmpty
                                           ? 'This field is required'
@@ -140,7 +106,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ],
                           ),
-                          if (isRegister.value == true)
+                          if (controller.isRegister)
                             Row(
                               children: [
                                 const Icon(
@@ -153,7 +119,7 @@ class LoginView extends GetView<LoginController> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                    controller: confirmC,
+                                    controller: controller.confirmC,
                                     validator: (value) =>
                                         value == null || value.isEmpty
                                             ? 'This field is required'
@@ -164,7 +130,7 @@ class LoginView extends GetView<LoginController> {
                                 ),
                               ],
                             ),
-                          if (isRegister.value == true)
+                          if (controller.isRegister)
                             Row(
                               children: [
                                 IconButton(
@@ -174,7 +140,23 @@ class LoginView extends GetView<LoginController> {
                                     size: 30,
                                   ),
                                   onPressed: () async {
-                                    _selectDate(context);
+                                    DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2101),
+                                    );
+
+                                    if (pickedDate != null) {
+                                      print(pickedDate);
+                                      String formattedDate =
+                                          DateFormat("EEE, dd MMM y")
+                                              .format(pickedDate);
+                                      print(formattedDate);
+                                      controller.dateC.text = formattedDate;
+                                    } else {
+                                      print("Tanggal tidak dipilih");
+                                    }
                                   },
                                 ),
                                 const SizedBox(
@@ -182,7 +164,7 @@ class LoginView extends GetView<LoginController> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                    controller: dateC,
+                                    controller: controller.dateC,
                                     validator: (value) =>
                                         value == null || value.isEmpty
                                             ? 'This field is required'
@@ -195,7 +177,7 @@ class LoginView extends GetView<LoginController> {
                               ],
                             ),
                           SizedBox(height: 10),
-                          if (isRegister.value == true)
+                          if (controller.isRegister)
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 8, right: 8, top: 7),
@@ -217,9 +199,10 @@ class LoginView extends GetView<LoginController> {
                                         children: [
                                           Radio<String>(
                                             value: 'male',
-                                            groupValue: selectedGender.value,
+                                            groupValue:
+                                                controller.selectedGender.value,
                                             onChanged: (value) {
-                                              selectedGender.value =
+                                              controller.selectedGender.value =
                                                   value ?? '';
                                             },
                                             activeColor: Color(0xff8332A6),
@@ -227,9 +210,10 @@ class LoginView extends GetView<LoginController> {
                                           Text('male'),
                                           Radio<String>(
                                             value: 'female',
-                                            groupValue: selectedGender.value,
+                                            groupValue:
+                                                controller.selectedGender.value,
                                             onChanged: (value) {
-                                              selectedGender.value =
+                                              controller.selectedGender.value =
                                                   value ?? '';
                                             },
                                             activeColor: Color(0xff8332A6),
@@ -275,17 +259,23 @@ class LoginView extends GetView<LoginController> {
               ),
 
               const SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  isRegister.value = !isRegister.value;
-                },
-                child: const Text(
-                  'Doesn’t Have Account? Register Here',
+              GestureDetector(
+                child: Text(
+                  controller.isRegister
+                      ? 'Already Have Account? Login Here'
+                      : 'Doesn\'t Have Account? Register Here',
                   style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF8332A6),
                       fontStyle: FontStyle.italic),
                 ),
+                onTap: () {
+                  controller.isRegister = !controller.isRegister;
+                  controller.nameC.clear();
+                  controller.passC.clear();
+                  controller.confirmC.clear();
+                  controller.emailC.clear();
+                },
               ),
               const SizedBox(height: 5),
               TextButton(
