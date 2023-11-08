@@ -87,7 +87,24 @@ class HomeView extends GetView<HomeController> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: const Center(child: Text("Reading Form")),
+                      title: const Center(
+                        child: Text(
+                          "Reading Form",
+                          style: TextStyle(
+                            color: Color(
+                                0xFF8332A6), // Ubah warna sesuai keinginan Anda
+                            fontSize: 15, // Ukuran teks
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        IconButton(
+                          icon: Icon(Icons.close, color: Color(0xFF8332A6)),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
                       content: Container(
                         width: 250.0,
                         child: Column(
@@ -98,24 +115,46 @@ class HomeView extends GetView<HomeController> {
                                 labelText: "Select Book",
                                 labelStyle: TextStyle(
                                   color: Color(0xFF8332A6),
+                                  fontSize: 12,
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.book,
+                                  color: Color(0xFF8332A6),
+                                  size: 20,
                                 ),
                               ),
                             ),
                             const TextField(
                               decoration: InputDecoration(
-                                labelText: "Previous Page",
-                                labelStyle: TextStyle(color: Color(0xFF8332A6)),
+                                labelText: "Previous page",
+                                labelStyle: TextStyle(
+                                  color: Color(0xFF8332A6),
+                                  fontSize: 12,
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.label,
+                                  color: Color(0xFF8332A6),
+                                  size: 20,
+                                ),
                               ),
                             ),
                             const TextField(
                               decoration: InputDecoration(
-                                labelText: "Newest Read Page",
-                                labelStyle: TextStyle(color: Color(0xFF8332A6)),
+                                labelText: "Newest page",
+                                labelStyle: TextStyle(
+                                  color: Color(0xFF8332A6),
+                                  fontSize: 12,
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.label_important,
+                                  color: Color(0xFF8332A6),
+                                  size: 20,
+                                ),
                               ),
                             ),
                             SizedBox(height: 16.0),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
@@ -131,11 +170,18 @@ class HomeView extends GetView<HomeController> {
                                         borderRadius: BorderRadius.circular(30),
                                       ),
                                     ),
+                                    padding: MaterialStateProperty.all<
+                                        EdgeInsetsGeometry>(
+                                      EdgeInsets.symmetric(
+                                          vertical: 12,
+                                          horizontal:
+                                              100), // Sesuaikan ukuran padding
+                                    ),
                                   ),
                                   child: Text("Submit"),
                                 ),
                               ],
-                            ),
+                            )
                           ],
                         ),
                       ),

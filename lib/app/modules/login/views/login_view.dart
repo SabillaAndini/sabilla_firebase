@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../home/views/home_view.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -169,7 +168,7 @@ class LoginView extends GetView<LoginController> {
                                         value == null || value.isEmpty
                                             ? 'This field is required'
                                             : null,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: "Datetime",
                                     ),
                                   ),
@@ -233,38 +232,58 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 330,
-                height: 40,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeView()),
-                      );
-                    }
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Color(0xFF8332A6)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF8332A6)),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24))),
+                        elevation: MaterialStatePropertyAll(5)),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (controller.isRegister) {
+                          controller.register();
+                        } else {
+                          controller.login();
+                        }
+                      }
+                    },
+                    child: Container(
+                      height: 48,
+                      width: 400,
+                      child: controller.isRegister
+                          ? controller.isSaving
+                              ? const Center(
+                                  child: Text('Loading...'),
+                                )
+                              : const Center(
+                                  child: Text(
+                                    'Register',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                )
+                          : controller.isSaving
+                              ? const Center(child: Text('Loading...'))
+                              : const Center(
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
                     ),
                   ),
-                  child: Text("Sign in"),
                 ),
               ),
-
               const SizedBox(height: 10),
               GestureDetector(
                 child: Text(
                   controller.isRegister
                       ? 'Already Have Account? Login Here'
                       : 'Doesn\'t Have Account? Register Here',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16,
                       color: Color(0xFF8332A6),
                       fontStyle: FontStyle.italic),
@@ -272,12 +291,12 @@ class LoginView extends GetView<LoginController> {
                 onTap: () {
                   controller.isRegister = !controller.isRegister;
                   controller.nameC.clear();
+                  controller.emailC.clear();
                   controller.passC.clear();
                   controller.confirmC.clear();
-                  controller.emailC.clear();
                 },
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: 5),
               TextButton(
                 onPressed: () {},
                 child: const Text(
