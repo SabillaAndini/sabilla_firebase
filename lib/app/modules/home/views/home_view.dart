@@ -97,14 +97,6 @@ class HomeView extends GetView<HomeController> {
                           ),
                         ),
                       ),
-                      actions: [
-                        IconButton(
-                          icon: Icon(Icons.close, color: Color(0xFF8332A6)),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
                       content: Container(
                         width: 250.0,
                         child: Column(
@@ -202,84 +194,175 @@ class HomeView extends GetView<HomeController> {
                 scrollDirection: Axis.horizontal,
                 itemCount: 3,
                 itemBuilder: (context, index) {
-                  return Container(
-                    width: 140,
-                    child: Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                  child: Image.asset('assets/homeimage.png')),
-                              const SizedBox(height: 20),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  'Book Name',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFFBF2C98),
+                  return Obx(
+                    () {
+                      return GestureDetector(
+                          onTap: () {
+                            controller.editlist.value = index;
+                          },
+                          child: controller.editlist.value == index
+                              ? Container(
+                                  width: 150,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFF8332A6).withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(16)),
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 10,
+                                        right: 10,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            controller.editlist.value = -1;
+                                          },
+                                          child: const Icon(
+                                            Icons.close_outlined,
+                                            color: Color.fromARGB(
+                                                255, 255, 250, 250),
+                                            size:
+                                                20, // Sesuaikan ukuran ikon sesuai kebutuhan Anda
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {},
+                                              child: const Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(
+                                                    Icons.edit,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    'Edit',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(height: 20),
+                                            GestureDetector(
+                                              onTap: () {},
+                                              child: const Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  'Category',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Color(0xFFBF2C98),
+                                )
+                              : Container(
+                                  width: 140,
+                                  child: Card(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Center(
+                                                child: Image.asset(
+                                                    'assets/homeimage.png')),
+                                            const SizedBox(height: 20),
+                                            const Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                'Book Name',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Color(0xFFBF2C98),
+                                                ),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                'Category',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Color(0xFFBF2C98),
+                                                ),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                '125/250 Page',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Color(0xFFBF2C98),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 15),
+                                            const Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                '50%',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Color(0xFFBF2C98),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                child: LinearProgressIndicator(
+                                                  value: 0.5,
+                                                  minHeight: 10,
+                                                  backgroundColor:
+                                                      Colors.grey.shade400,
+                                                  valueColor:
+                                                      const AlwaysStoppedAnimation<
+                                                              Color>(
+                                                          Color(0xFF7C39BF)),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  '125/250 Page',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Color(0xFFBF2C98),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  '50%',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Color(0xFFBF2C98),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: LinearProgressIndicator(
-                                    value: 0.5,
-                                    minHeight: 10,
-                                    backgroundColor: Colors.grey.shade400,
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                            Color(0xFF7C39BF)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                                ));
+                    },
                   );
                 },
               ),

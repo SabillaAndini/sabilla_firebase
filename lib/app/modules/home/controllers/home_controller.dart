@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  final RxInt editlist = (-1).obs;
   final count = 0.obs;
   @override
   void onInit() {
