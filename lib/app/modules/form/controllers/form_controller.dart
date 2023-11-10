@@ -1,7 +1,15 @@
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FormController extends GetxController {
-  //TODO: Implement FormController
+  final ImagePicker picker = ImagePicker();
+  XFile? image;
+  var path = ''.obs;
+
+  Future<void> selectImage() async {
+    image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) path.value = image!.path;
+  }
 
   final count = 0.obs;
   @override

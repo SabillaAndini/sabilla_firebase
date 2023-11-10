@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:sabilla_firebase/app/integrations/firestore.dart';
 import '../../login/controllers/login_controller.dart';
 import '../controllers/profile_controller.dart';
 
@@ -11,22 +9,6 @@ class ProfileView extends GetView<ProfileController> {
   final authC = Get.find<LoginController>();
   final currentUser = FirebaseAuth.instance.currentUser!;
   TextEditingController dateC = TextEditingController();
-
-  Rx<DateTime?> _selectedDate = DateTime(2000).obs;
-  DateTime? get selectedDate => _selectedDate.value;
-  set selectedDate(DateTime? value) => _selectedDate.value = value;
-
-  pickedDate(dynamic context) async {
-    selectedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2050));
-
-    if (selectedDate != null) {
-      dateC.text = DateFormat('EEE, dd MM y').format(selectedDate!);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +23,7 @@ class ProfileView extends GetView<ProfileController> {
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
-              const Positioned(
+              Positioned(
                 top: 49.13,
                 left: 35.13,
                 child: Row(
@@ -58,7 +40,7 @@ class ProfileView extends GetView<ProfileController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Full Name',
+                          '${authC.user.username}',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -66,7 +48,7 @@ class ProfileView extends GetView<ProfileController> {
                           ),
                         ),
                         Text(
-                          'name@gmail.com',
+                          '${authC.user.email}',
                           style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                       ],
@@ -174,110 +156,144 @@ class ProfileView extends GetView<ProfileController> {
               ),
             ],
           ),
-          StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection(usersCollection)
-                .doc(currentUser.uid)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data!.data() != null) {
-                  final userData =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person,
-                                color: Color(0xFF8332A6), size: 35),
-                            SizedBox(width: 10),
-                            Text(
-                              userData['username'],
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Color(0xFF8332A6),
-                              ),
-                            ),
-                          ],
+          SizedBox(height: 40),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.person,
+                          color: Color(0xff8332A6),
+                          size: 40,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.email,
-                                color: Color(0xFF8332A6), size: 35),
-                            SizedBox(width: 10),
-                            Text(
-                              userData['email'],
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Color(0xFF8332A6),
-                              ),
-                            ),
-                          ],
+                        SizedBox(width: 23),
+                        Text(
+                          '${authC.user.username}',
+                          style: TextStyle(fontSize: 18),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.cake,
-                                color: Color(0xFF8332A6), size: 35),
-                            SizedBox(width: 10),
-                            Text(
-                              pickedDate(userData['birthDate']),
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Color(0xFF8332A6),
-                              ),
-                            ),
-                          ],
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.email_outlined,
+                          color: Color(0xff8332A6),
+                          size: 40,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 20),
-                        child: Row(
-                          children: [
-                            Icon(
-                              userData['gender'] == 'male'
-                                  ? Icons.male_outlined
-                                  : Icons.female_outlined,
-                              color: Color(0xFF8332A6),
-                              size: 35,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              userData['gender'],
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Color(0xFF8332A6),
-                              ),
-                            ),
-                          ],
+                        SizedBox(width: 23),
+                        Text(
+                          '${authC.user.email}',
+                          style: TextStyle(fontSize: 18),
                         ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                        'Data tidak ditemukan'), // Menampilkan pesan jika data null
-                  );
-                }
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.cake,
+                          color: Color(0xff8332A6),
+                          size: 40,
+                        ),
+                        SizedBox(width: 23),
+                        Text(
+                          authC.user.birthDate is DateTime
+                              ? DateFormat("EEE, dd MMM y")
+                                  .format(authC.selectedDate!)
+                              : '--',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          authC.user.gender == 'male'
+                              ? Icons.male
+                              : Icons.female,
+                          color: Color(0xff8332A6),
+                          size: 40,
+                        ),
+                        SizedBox(width: 23),
+                        Text(
+                          authC.user.gender == 'male' ? 'Male' : 'Female',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+          height: 50,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                iconSize: 30.0,
+                padding: const EdgeInsets.only(left: 70.0),
+                icon: const Icon(
+                  Icons.home,
+                ),
+                onPressed: () {
+                  Get.toNamed('/home');
+                },
+              ),
+              IconButton(
+                iconSize: 30.0,
+                padding: const EdgeInsets.only(right: 70.0),
+                icon: const Icon(
+                  Icons.person,
+                  color: Color(0xFF8332A6),
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
