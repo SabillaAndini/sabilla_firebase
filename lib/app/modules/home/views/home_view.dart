@@ -83,103 +83,7 @@ class HomeView extends GetView<HomeController> {
                 color: Colors.white,
               ),
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Center(
-                        child: Text(
-                          "Reading Form",
-                          style: TextStyle(
-                            color: Color(
-                                0xFF8332A6), // Ubah warna sesuai keinginan Anda
-                            fontSize: 15, // Ukuran teks
-                          ),
-                        ),
-                      ),
-                      content: Container(
-                        width: 250.0,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const TextField(
-                              decoration: InputDecoration(
-                                labelText: "Select Book",
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF8332A6),
-                                  fontSize: 12,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.book,
-                                  color: Color(0xFF8332A6),
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                            const TextField(
-                              decoration: InputDecoration(
-                                labelText: "Previous page",
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF8332A6),
-                                  fontSize: 12,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.label,
-                                  color: Color(0xFF8332A6),
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                            const TextField(
-                              decoration: InputDecoration(
-                                labelText: "Newest page",
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF8332A6),
-                                  fontSize: 12,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.label_important,
-                                  color: Color(0xFF8332A6),
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 16.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            const Color(0xFF8332A6)),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                    ),
-                                    padding: MaterialStateProperty.all<
-                                        EdgeInsetsGeometry>(
-                                      EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal:
-                                              100), // Sesuaikan ukuran padding
-                                    ),
-                                  ),
-                                  child: Text("Submit"),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
+                Get.toNamed('/form');
               },
               iconSize: 20,
             ),
@@ -218,7 +122,7 @@ class HomeView extends GetView<HomeController> {
                                             controller.editlist.value = -1;
                                           },
                                           child: const Icon(
-                                            Icons.close_outlined,
+                                            Icons.cancel_outlined,
                                             color: Color.fromARGB(
                                                 255, 255, 250, 250),
                                             size:
@@ -476,7 +380,102 @@ class HomeView extends GetView<HomeController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF8332A6),
         onPressed: () {
-          Get.toNamed('/form');
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Center(
+                  child: Text(
+                    "Reading Form",
+                    style: TextStyle(
+                      color:
+                          Color(0xFF8332A6), // Ubah warna sesuai keinginan Anda
+                      fontSize: 15, // Ukuran teks
+                    ),
+                  ),
+                ),
+                content: Container(
+                  width: 250.0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const TextField(
+                        decoration: InputDecoration(
+                          labelText: "Select Book",
+                          labelStyle: TextStyle(
+                            color: Color(0xFF8332A6),
+                            fontSize: 12,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.book,
+                            color: Color(0xFF8332A6),
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      const TextField(
+                        decoration: InputDecoration(
+                          labelText: "Previous page",
+                          labelStyle: TextStyle(
+                            color: Color(0xFF8332A6),
+                            fontSize: 12,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.label,
+                            color: Color(0xFF8332A6),
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      const TextField(
+                        decoration: InputDecoration(
+                          labelText: "Newest page",
+                          labelStyle: TextStyle(
+                            color: Color(0xFF8332A6),
+                            fontSize: 12,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.label_important,
+                            color: Color(0xFF8332A6),
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color(0xFF8332A6)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              padding:
+                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal:
+                                        100), // Sesuaikan ukuran padding
+                              ),
+                            ),
+                            child: Text("Submit"),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
