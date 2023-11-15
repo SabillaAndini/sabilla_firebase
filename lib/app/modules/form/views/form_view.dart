@@ -177,9 +177,7 @@ class FormView extends GetView<FormController> {
                               child: Text(
                                 "Book's Cover",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                    color: Colors.black, fontSize: 20),
                               ),
                             ),
                             SizedBox(height: 10),

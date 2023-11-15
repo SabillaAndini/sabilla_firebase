@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:sabilla_firebase/app/data/read_model.dart';
 
+import '../../login/controllers/login_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  final GlobalKey<FormState> form = GlobalKey<FormState>();
+  ReadModel reads = Get.arguments ?? ReadModel();
+  final authC = Get.find<LoginController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +26,7 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             top: 20,
             left: 16,
             child: Row(
@@ -34,19 +40,22 @@ class HomeView extends GetView<HomeController> {
                   width: 16,
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Hai...',
                       style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w200,
+                          fontSize: 22),
+                    ),
+                    Obx(
+                      () => Text(
+                        '${authC.user.username}',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
-                    ),
-                    Text(
-                      'username',
-                      style: TextStyle(fontSize: 12, color: Colors.white),
-                    ),
+                    )
                   ],
                 ),
               ],
@@ -60,9 +69,7 @@ class HomeView extends GetView<HomeController> {
                 Icons.notifications_outlined,
                 color: Colors.white,
               ),
-              onPressed: () {
-                // Tambahkan aksi ketika ikon ditekan
-              },
+              onPressed: () {},
               iconSize: 35,
             ),
           ),
@@ -89,9 +96,9 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           Positioned(
-            top: 120, // Atur posisi top sesuai kebutuhan
+            top: 120,
             left: 10,
-            right: 10, // Atur posisi right sesuai kebutuhan
+            right: 10,
             child: SizedBox(
               height: 200,
               child: ListView.builder(
@@ -183,84 +190,103 @@ class HomeView extends GetView<HomeController> {
                                 )
                               : Container(
                                   width: 140,
-                                  child: Card(
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Center(
-                                                child: Image.asset(
-                                                    'assets/homeimage.png')),
-                                            const SizedBox(height: 20),
-                                            const Padding(
-                                              padding: EdgeInsets.only(left: 5),
-                                              child: Text(
-                                                'Book Name',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xFFBF2C98),
+                                  child: Obx(
+                                    () => Card(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Center(
+                                                child: controller.book[index]
+                                                        .image!.isEmptyOrNull
+                                                    ? Image.asset(
+                                                        'assets/homeimage.png',
+                                                        width: 80,
+                                                        height: 60,
+                                                      )
+                                                    : Image.network(
+                                                        '${controller.book[index].image}',
+                                                        width: 90,
+                                                        height: 80,
+                                                      ),
+                                              ),
+                                              const SizedBox(height: 20),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  '${controller.book[index].title}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Color(0xFFBF2C98),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(left: 5),
-                                              child: Text(
-                                                'Category',
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Color(0xFFBF2C98),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  '${controller.book[index].category}',
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFFBF2C98),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(left: 5),
-                                              child: Text(
-                                                '125/250 Page',
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Color(0xFFBF2C98),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  '${controller.book[index].readPage}/${controller.book[index].page} page',
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFFBF2C98),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(height: 15),
-                                            const Padding(
-                                              padding: EdgeInsets.only(left: 5),
-                                              child: Text(
-                                                '50%',
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Color(0xFFBF2C98),
+                                              SizedBox(height: 15),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  '50%',
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFFBF2C98),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                                child: LinearProgressIndicator(
-                                                  value: 0.5,
-                                                  minHeight: 10,
-                                                  backgroundColor:
-                                                      Colors.grey.shade400,
-                                                  valueColor:
-                                                      const AlwaysStoppedAnimation<
-                                                              Color>(
-                                                          Color(0xFF7C39BF)),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  child:
+                                                      LinearProgressIndicator(
+                                                    value: 0.5,
+                                                    minHeight: 10,
+                                                    backgroundColor:
+                                                        Colors.grey.shade400,
+                                                    valueColor:
+                                                        const AlwaysStoppedAnimation<
+                                                                Color>(
+                                                            Color(0xFF7C39BF)),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -308,64 +334,85 @@ class HomeView extends GetView<HomeController> {
                             Color backgroundColor = index % 2 == 0
                                 ? Color(0xFFBF2C98).withOpacity(0.1)
                                 : Color(0xFFBF2C98).withOpacity(0.2);
-                            return Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: backgroundColor,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: Image.asset(
-                                      'assets/homeimage.png',
-                                      width: 50,
-                                      height: 50,
-                                    ),
+                            return Dismissible(
+                                key: Key(
+                                    '$index'), // Atur kunci unik untuk setiap item
+                                onDismissed: (direction) {
+                                  // Implementasikan aksi yang ingin Anda lakukan saat item di-dismiss
+                                  // Misalnya, menghapus item dari sumber data
+                                },
+                                background: Container(
+                                  color: const Color.fromARGB(255, 255, 255,
+                                      255), // Atur warna latar belakang saat di-swipe
+                                  child: Icon(Icons
+                                      .delete), // Atur ikon atau konten lainnya
+                                ),
+                                child: Container(
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    color: backgroundColor,
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Book Name',
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 16),
-                                      ),
-                                      Text(
-                                        'Tue, 23 Oct 2023, 12/25',
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 50),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 5),
-                                    child: Container(
-                                      width: 50,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFBF2C98),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Center(
-                                        child: Text(
-                                          '1 - 20',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
+                                  child: Obx(
+                                    () => Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8),
+                                          child: Image.asset(
+                                            'assets/homeimage.png',
+                                            width: 50,
+                                            height: 50,
                                           ),
                                         ),
-                                      ),
+                                        const SizedBox(width: 10),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${controller.book[index].title}',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16),
+                                            ),
+                                            Text(
+                                              'Tue, 23 Oct 2023, 12/25',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 50),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Container(
+                                            width: 50,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFBF2C98),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: const Center(
+                                              child: Text(
+                                                '1 - 20',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            );
+                                ));
                           },
                         ),
                       ),

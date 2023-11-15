@@ -77,4 +77,22 @@ class ReadModel {
       return list;
     });
   }
+
+  Stream<List<ReadModel>> streamAllList() async* {
+    yield* firebaseFirestore
+        .collectionGroup(readCollection)
+        .snapshots()
+        .map((query) {
+      List<ReadModel> list = [];
+      for (var doc in query.docs) {
+        list.add(
+          ReadModel.fromJson(
+            doc,
+          ),
+        );
+      }
+      print('List length ${list.length}');
+      return list;
+    });
+  }
 }

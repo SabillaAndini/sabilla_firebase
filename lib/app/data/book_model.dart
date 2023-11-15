@@ -32,7 +32,7 @@ class BookModel {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
-    data['tittle'] = title;
+    data['title'] = title;
     data['category'] = category;
     data['page'] = page;
     data['readPage'] = readPage;
@@ -56,7 +56,7 @@ class BookModel {
     return this;
   }
 
-  Future delete() async {
+  Future delete(String s) async {
     if (id == null) {
       Get.defaultDialog(
         title: "Error",
