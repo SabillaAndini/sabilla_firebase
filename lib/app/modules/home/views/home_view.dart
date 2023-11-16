@@ -101,200 +101,209 @@ class HomeView extends GetView<HomeController> {
             right: 10,
             child: SizedBox(
               height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Obx(
-                    () {
-                      return GestureDetector(
-                          onTap: () {
-                            controller.editlist.value = index;
-                          },
-                          child: controller.editlist.value == index
-                              ? Container(
-                                  width: 150,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFF8332A6).withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(16)),
-                                  margin: EdgeInsets.only(right: 15),
-                                  child: Stack(
-                                    children: [
-                                      Positioned(
-                                        top: 10,
-                                        right: 10,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            controller.editlist.value = -1;
-                                          },
-                                          child: const Icon(
-                                            Icons.cancel_outlined,
-                                            color: Color.fromARGB(
-                                                255, 255, 250, 250),
-                                            size:
-                                                20, // Sesuaikan ukuran ikon sesuai kebutuhan Anda
+              child: Obx(
+                () => ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.book.length,
+                  itemBuilder: (context, index) {
+                    return Obx(
+                      () {
+                        return GestureDetector(
+                            onTap: () {
+                              controller.editlist.value = index;
+                            },
+                            child: controller.editlist.value == index
+                                ? Container(
+                                    width: 150,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Color(0xFF8332A6).withOpacity(0.5),
+                                        borderRadius:
+                                            BorderRadius.circular(16)),
+                                    margin: EdgeInsets.only(right: 15),
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          top: 10,
+                                          right: 10,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              controller.editlist.value = -1;
+                                            },
+                                            child: const Icon(
+                                              Icons.cancel_outlined,
+                                              color: Color.fromARGB(
+                                                  255, 255, 250, 250),
+                                              size:
+                                                  20, // Sesuaikan ukuran ikon sesuai kebutuhan Anda
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Center(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: const Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    Icons.edit,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Edit',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(height: 20),
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: const Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    Icons.delete,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Delete',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : Container(
-                                  width: 140,
-                                  child: Obx(
-                                    () => Card(
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Align(
-                                        alignment: Alignment.topCenter,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
+                                        Center(
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Center(
-                                                child: controller.book[index]
-                                                        .image!.isEmptyOrNull
-                                                    ? Image.asset(
-                                                        'assets/homeimage.png',
-                                                        width: 80,
-                                                        height: 60,
-                                                      )
-                                                    : Image.network(
-                                                        '${controller.book[index].image}',
-                                                        width: 90,
-                                                        height: 80,
-                                                      ),
-                                              ),
-                                              const SizedBox(height: 20),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 5),
-                                                child: Text(
-                                                  '${controller.book[index].title}',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFFBF2C98),
-                                                  ),
+                                              GestureDetector(
+                                                onTap: () {},
+                                                child: const Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.edit,
+                                                      color: Colors.white,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      'Edit',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 5),
-                                                child: Text(
-                                                  '${controller.book[index].category}',
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Color(0xFFBF2C98),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 5),
-                                                child: Text(
-                                                  '${controller.book[index].readPage}/${controller.book[index].page} page',
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Color(0xFFBF2C98),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(height: 15),
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 5),
-                                                child: Text(
-                                                  '50%',
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Color(0xFFBF2C98),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  child:
-                                                      LinearProgressIndicator(
-                                                    value: 0.5,
-                                                    minHeight: 10,
-                                                    backgroundColor:
-                                                        Colors.grey.shade400,
-                                                    valueColor:
-                                                        const AlwaysStoppedAnimation<
-                                                                Color>(
-                                                            Color(0xFF7C39BF)),
-                                                  ),
+                                              SizedBox(height: 20),
+                                              GestureDetector(
+                                                onTap: () {},
+                                                child: const Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete,
+                                                      color: Colors.white,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      'Delete',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
+                                      ],
+                                    ),
+                                  )
+                                : Container(
+                                    width: 140,
+                                    child: Obx(
+                                      () => Card(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Center(
+                                                  child: controller.book[index]
+                                                          .image!.isEmptyOrNull
+                                                      ? Image.asset(
+                                                          'assets/homeimage.png',
+                                                          width: 80,
+                                                          height: 60,
+                                                        )
+                                                      : Image.network(
+                                                          '${controller.book[index].image}',
+                                                          width: 90,
+                                                          height: 80,
+                                                        ),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 5),
+                                                  child: Text(
+                                                    '${controller.book[index].title}',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 5),
+                                                  child: Text(
+                                                    '${controller.book[index].category}',
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 5),
+                                                  child: Text(
+                                                    '${controller.book[index].readPage}/${controller.book[index].page} page',
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 15),
+                                                const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 5),
+                                                  child: Text(
+                                                    '50%',
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
+                                                    child:
+                                                        LinearProgressIndicator(
+                                                      value: 0.5,
+                                                      minHeight: 10,
+                                                      backgroundColor:
+                                                          Colors.grey.shade400,
+                                                      valueColor:
+                                                          const AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Color(
+                                                                  0xFF7C39BF)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ));
-                    },
-                  );
-                },
+                                  ));
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -327,25 +336,19 @@ class HomeView extends GetView<HomeController> {
                     Expanded(
                       child: Container(
                         child: ListView.builder(
-                          itemCount:
-                              20, // Ganti dengan jumlah item yang Anda inginkan
+                          itemCount: controller.listread.length,
                           itemBuilder: (BuildContext context, int index) {
-                            // Menggunakan indeks genap/ganjil untuk mengganti warna latar belakang
                             Color backgroundColor = index % 2 == 0
                                 ? Color(0xFFBF2C98).withOpacity(0.1)
                                 : Color(0xFFBF2C98).withOpacity(0.2);
                             return Dismissible(
                                 key: Key(
                                     '$index'), // Atur kunci unik untuk setiap item
-                                onDismissed: (direction) {
-                                  // Implementasikan aksi yang ingin Anda lakukan saat item di-dismiss
-                                  // Misalnya, menghapus item dari sumber data
-                                },
+                                onDismissed: (direction) {},
                                 background: Container(
-                                  color: const Color.fromARGB(255, 255, 255,
-                                      255), // Atur warna latar belakang saat di-swipe
-                                  child: Icon(Icons
-                                      .delete), // Atur ikon atau konten lainnya
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  child: Icon(Icons.delete),
                                 ),
                                 child: Container(
                                   height: 60,
@@ -446,7 +449,7 @@ class HomeView extends GetView<HomeController> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const TextField(
+                      TextFormField(
                         decoration: InputDecoration(
                           labelText: "Select Book",
                           labelStyle: TextStyle(
@@ -460,7 +463,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                         ),
                       ),
-                      const TextField(
+                      TextFormField(
                         decoration: InputDecoration(
                           labelText: "Previous page",
                           labelStyle: TextStyle(
@@ -474,7 +477,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                         ),
                       ),
-                      const TextField(
+                      TextFormField(
                         decoration: InputDecoration(
                           labelText: "Newest page",
                           labelStyle: TextStyle(
@@ -489,34 +492,23 @@ class HomeView extends GetView<HomeController> {
                         ),
                       ),
                       SizedBox(height: 16.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  const Color(0xFF8332A6)),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                              padding:
-                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal:
-                                        100), // Sesuaikan ukuran padding
-                              ),
-                            ),
-                            child: Text("Submit"),
-                          ),
-                        ],
-                      )
+                      Obx(
+                        () => Container(
+                          width: Get.width,
+                          child: FloatingActionButton.extended(
+                              backgroundColor: Color(0xFF8332A6),
+                              onPressed: controller.isSaving
+                                  ? null
+                                  : () {
+                                      if (form.currentState!.validate()) {
+                                        controller.store(reads);
+                                      }
+                                    },
+                              label: controller.isSaving
+                                  ? Text("Loading...")
+                                  : Text("Submit")),
+                        ),
+                      ),
                     ],
                   ),
                 ),

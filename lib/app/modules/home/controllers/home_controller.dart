@@ -26,7 +26,9 @@ class HomeController extends GetxController {
   String? bookid;
   BookModel? selectedbook;
 
-  var isSaving = false.obs;
+  var _isSaving = false.obs;
+  bool get isSaving => _isSaving.value;
+  set isSaving(bool value) => _isSaving.value = value;
 
   TextEditingController bkTitleC = TextEditingController();
   TextEditingController prevPg = TextEditingController();
@@ -41,14 +43,14 @@ class HomeController extends GetxController {
     return read;
   }
 
-  modelToContoller(ReadModel read) {
+  modelToController(ReadModel read) {
     bkTitleC.text = read.bookId ?? '';
     prevPg.text = (read.prePage ?? '').toString();
     newPg.text = (read.newPage ?? '').toString();
   }
 
   Future store(ReadModel read) async {
-    isSaving.value = true;
+    _isSaving.value = true;
     read = controllerToModel(read);
     try {
       await read.save();
@@ -61,7 +63,7 @@ class HomeController extends GetxController {
       print(e);
       toast('Error ${e.toString()}');
     } finally {
-      isSaving.value = false;
+      _isSaving.value = false;
     }
   }
 

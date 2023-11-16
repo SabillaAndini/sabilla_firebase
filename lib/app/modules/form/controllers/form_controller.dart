@@ -13,6 +13,7 @@ class FormController extends GetxController {
   TextEditingController titleC = TextEditingController();
   TextEditingController categoryC = TextEditingController();
   TextEditingController pageC = TextEditingController();
+  TextEditingController readPageC = TextEditingController();
 
   final Rxn<String> _selectedValue = Rxn<String>();
   String? get selectedValue => _selectedValue.value;
@@ -29,13 +30,15 @@ class FormController extends GetxController {
     }
   }
 
-  var isSaving = false.obs;
+  var _isSaving = false.obs;
+  bool get isSaving => _isSaving.value;
+  set isSaving(bool value) => _isSaving.value = value;
 
   controllerToModel(BookModel book) async {
     book.title = titleC.text;
-    book.category = selectedValue;
+    book.category = categoryC.text;
     book.page = int.tryParse(pageC.text);
-    book.readPage = 0;
+    book.readPage = int.tryParse(readPageC.text);
     book.image = addImage.value;
     book.time = DateTime.now();
     if (book.id != null) {
@@ -44,7 +47,7 @@ class FormController extends GetxController {
     return book;
   }
 
-  modelToContoller(BookModel book) {
+  modelToController(BookModel book) {
     titleC.text = book.title ?? '';
     categoryC.text = book.category ?? '';
     pageC.text = (book.page ?? '').toString();
@@ -52,7 +55,7 @@ class FormController extends GetxController {
   }
 
   Future store(BookModel book, {String? path}) async {
-    isSaving.value = true;
+    _isSaving.value = true;
     File? data;
     book = await controllerToModel(book);
     if (!path.isEmptyOrNull) {
@@ -66,7 +69,7 @@ class FormController extends GetxController {
       print(e);
       toast('Error ${e.toString()}');
     } finally {
-      isSaving.value = false;
+      _isSaving.value = false;
     }
   }
 

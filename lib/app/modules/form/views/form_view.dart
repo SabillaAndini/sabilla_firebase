@@ -3,18 +3,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../../../data/book_model.dart';
 import '../../home/views/home_view.dart';
 import '../controllers/form_controller.dart';
 
 class FormView extends GetView<FormController> {
-  GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormState> formKey = GlobalKey();
+  final FormController controller = Get.put(FormController());
   BookModel book = Get.arguments ?? BookModel();
   FormView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    controller.modelToController(book);
     return Scaffold(
       backgroundColor: Color(0xFFFBF2FF),
       appBar: AppBar(
@@ -117,6 +120,7 @@ class FormView extends GetView<FormController> {
                               const SizedBox(width: 10),
                               Expanded(
                                 child: TextFormField(
+                                  readOnly: !book.id.isEmptyOrNull,
                                   controller: controller.pageC,
                                   validator: (value) =>
                                       value == null || value.isEmpty
@@ -230,39 +234,21 @@ class FormView extends GetView<FormController> {
                         ),
                       ),
                     ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40, left: 12, right: 12),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState?.validate() == true) {
-                      controller.store(book, path: controller.addImage.value);
-                    } else {
-                      Get.defaultDialog(
-                        title: 'Gagal!',
-                        middleText: 'Data tidak berhasil disimpan',
-                        middleTextStyle: TextStyle(color: Color(0xff8332A6)),
-                        onConfirm: () {
-                          Get.back();
-                        },
-                        textConfirm: 'Oke',
-                        buttonColor: Color(0xff8332A6),
-                        confirmTextColor: Colors.white,
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 8,
-                    shadowColor: Colors.grey,
-                    backgroundColor: Color(0xff8332A6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    minimumSize: Size(double.infinity, 45),
-                  ),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+              Obx(
+                () => Container(
+                  width: Get.width,
+                  child: FloatingActionButton.extended(
+                      backgroundColor: Color(0xff8332A6),
+                      onPressed: controller.isSaving
+                          ? null
+                          : () {
+                              if (formKey.currentState!.validate()) {
+                                controller.store(book);
+                              }
+                            },
+                      label: controller.isSaving
+                          ? Text("Loading...")
+                          : Text("Submit")),
                 ),
               ),
             ],
