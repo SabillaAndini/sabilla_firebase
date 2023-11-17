@@ -234,23 +234,37 @@ class FormView extends GetView<FormController> {
                         ),
                       ),
                     ),
+              SizedBox(
+                height: 20,
+              ),
               Obx(
                 () => Container(
-                  width: Get.width,
+                  width: 350,
                   child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xff8332A6),
-                      onPressed: controller.isSaving
-                          ? null
-                          : () {
-                              if (formKey.currentState!.validate()) {
-                                controller.store(book);
-                              }
-                            },
-                      label: controller.isSaving
-                          ? Text("Loading...")
-                          : Text("Submit")),
+                    backgroundColor:
+                        controller.isSaving ? Colors.white : Color(0xff8332A6),
+                    onPressed: controller.isSaving
+                        ? null
+                        : () {
+                            if (formKey.currentState!.validate()) {
+                              controller.store(book);
+                            }
+                          },
+                    label: controller.isSaving
+                        ? Text(
+                            "Loading...",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : Text(
+                            "Submit",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                  ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),
